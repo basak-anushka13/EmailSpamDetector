@@ -185,30 +185,20 @@
     }
 
     @media (min-width: 768px) {
-      .sidebar {
-        position: relative;
-      }
+  .sidebar {
+    transform: translateX(0) !important;
+    position: relative;
+  }
 
-      .sidebar:not(.show) {
-        transform: translateX(-100%) !important;
-      }
+  .hamburger {
+    display: none !important;
+  }
 
-      .sidebar.show {
-        transform: translateX(0) !important;
-      }
+  .main {
+    margin-left: 260px;
+  }
+}
 
-      .hamburger {
-        display: none !important;
-      }
-
-      .main {
-        margin-left: 260px;
-      }
-
-      .sidebar:not(.show) ~ .main {
-        margin-left: 0;
-      }
-    }
   </style>
 </head>
 <body class="dark">
@@ -269,9 +259,9 @@
 
   <script>
     function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      sidebar.classList.toggle('show');
-    }
+  const sidebar = document.getElementById('sidebar');
+  sidebar.classList.toggle('show');
+}
 
     function showSection(id) {
       const sections = ['form', 'history', 'tips'];
