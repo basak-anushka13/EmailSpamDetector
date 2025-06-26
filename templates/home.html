@@ -25,40 +25,41 @@
       color: #222;
     }
 
-    .sidebar {
-      width: 260px;
-      background: rgba(0, 0, 0, 0.1);
-      padding: 2rem 1rem;
-      border-right: 1px solid rgba(255, 255, 255, 0.1);
-      transition: transform 0.3s ease;
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      z-index: 1000;
-      transform: translateX(-100%);
-    }
+   .sidebar {
+  width: 260px;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 2rem 1rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 1000;
+  transform: translateX(-100%); /* hidden by default */
+}
 
-    .sidebar.show {
-      transform: translateX(0);
-    }
+.sidebar.show {
+  transform: translateX(0); /* show when toggled */
+}
 
-    .sidebar h2 {
-      color: #1abc9c;
-      font-size: 1.3rem;
-      margin-bottom: 1.5rem;
-      margin-top: 2.5rem;
-    }
+.sidebar h2 {
+  color: #1abc9c;
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  margin-top: 2.5rem;
+}
 
-    .hamburger {
-      position: fixed;
-      top: 1rem;
-      left: 1rem;
-      font-size: 2rem;
-      color: white;
-      cursor: pointer;
-      z-index: 1100;
-    }
+/* Hamburger button */
+.hamburger {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  z-index: 1100;
+}
 
     .menu {
       list-style: none;
@@ -184,36 +185,35 @@
       font-size: 0.95rem;
     }
 
-    @media (min-width: 768px) {
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
       .sidebar {
-        position: relative;
-      }
+    transform: translateX(0) !important;
+    position: relative;
+    height: auto;
+  }
 
-      .sidebar:not(.show) {
-        transform: translateX(-100%) !important;
-      }
-
-      .sidebar.show {
-        transform: translateX(0) !important;
-      }
-
-      .hamburger {
-        display: none !important;
-      }
+  .hamburger {
+    display: none;
+  }
 
       .main {
-        margin-left: 260px;
+        padding: 1.5rem;
       }
 
-      .sidebar:not(.show) ~ .main {
-        margin-left: 0;
+      .toggle-btn {
+        top: 1rem;
+        left: 1rem;
       }
     }
   </style>
 </head>
 <body class="dark">
 
-  <button class="toggle-btn hamburger" onclick="toggleSidebar()">☰</button>
+  <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
 
   <div class="sidebar" id="sidebar">
     <h2>📂 Menu</h2>
@@ -269,8 +269,7 @@
 
   <script>
     function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      sidebar.classList.toggle('show');
+      document.getElementById('sidebar').classList.toggle('hidden');
     }
 
     function showSection(id) {
