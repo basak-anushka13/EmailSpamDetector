@@ -258,9 +258,13 @@
   </div>
 
   <script>
-    function toggleSidebar() {
+function toggleSidebar() {
   const sidebar = document.getElementById('sidebar');
-  sidebar.classList.toggle('show');
+
+  // On small screens: toggle show/hide
+  if (window.innerWidth < 768) {
+    sidebar.classList.toggle('show');
+  }
 }
 
     function showSection(id) {
