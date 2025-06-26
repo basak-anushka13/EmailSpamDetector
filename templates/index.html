@@ -3,183 +3,296 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>InboxArmor — Spam Detection</title>
+  <title>InboxArmor — Spam Detector</title>
   <style>
+    * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
       min-height: 100vh;
-      padding: 2rem 1rem;
-    }
-
-    header img {
-      height: 80px;
-      width: 80px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 1rem;
-      border: 2px solid #1abc9c;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-    }
-
-    h1 {
-      font-size: 2.2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .tagline {
-      font-size: 1.1rem;
-      color: #ccc;
-      margin-bottom: 2rem;
-    }
-
-    .features {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.2rem;
-}
-
-   .feature {
-  flex: 0 1 260px;
-  height: 140px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 1rem;
-  border-radius: 1rem;
-  font-size: 1rem;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  cursor: pointer;
-}
-
-    .feature:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(26, 188, 156, 0.5);
-    }
-
-    .feature:active {
-      transform: scale(0.98);
-    }
-
-    .ratings {
-      margin: 3rem auto;
-      text-align: center;
-    }
-
-    .stat-grid {
       display: flex;
-      justify-content: center;
-      gap: 2rem;
-      flex-wrap: wrap;
+      transition: background 0.3s, color 0.3s;
     }
 
-    .stat-box {
-      background: rgba(255, 255, 255, 0.07);
-      padding: 1.2rem;
-      border-radius: 1rem;
-      min-width: 140px;
-      text-align: center;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .stat-number {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #1abc9c;
-    }
-
-    .stat-label {
-      font-size: 0.95rem;
-      color: #ddd;
-      margin-top: 0.4rem;
-    }
-
-    a.button {
-      display: inline-block;
-      padding: 0.9rem 2rem;
-      background: #1abc9c;
+    body.dark {
+      background: linear-gradient(to right, #141E30, #243B55);
       color: white;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1.1rem;
-      border-radius: 0.7rem;
+    }
+
+    body.light {
+      background: #f0f0f0;
+      color: #222;
+    }
+
+    .sidebar {
+      width: 260px;
+      background: rgba(0, 0, 0, 0.1);
+      padding: 2rem 1rem;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar.hidden {
+      transform: translateX(-100%);
+    }
+
+    .sidebar h2 {
+      color: #1abc9c;
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .menu {
+      list-style: none;
+      padding: 0;
+    }
+
+    .menu li {
+      margin: 0.8rem 0;
+      cursor: pointer;
+      padding: 0.5rem 0.8rem;
+      border-radius: 0.5rem;
       transition: background 0.3s ease;
     }
 
-    a.button:hover {
-      background: #16a085;
+    .menu li:hover {
+      background: rgba(255, 255, 255, 0.1);
     }
 
-    footer {
-      font-size: 0.9rem;
-      color: #fff;
-      background-color: rgba(255, 255, 255, 0.05);
+    .main {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
       width: 100%;
-      padding: 1rem 0;
-      text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    @media (max-width: 600px) {
-      h1 { font-size: 1.8rem; }
-      .tagline { font-size: 1rem; }
-      .features { flex-direction: column; }
+    .center-box {
+      max-width: 600px;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 2rem;
+      border-radius: 1.2rem;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    .light .center-box {
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 1rem;
+      font-size: 1rem;
+      border-radius: 1rem;
+      border: none;
+      resize: none;
+      margin-top: 1rem;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      background-color: #1abc9c;
+      color: white;
+      border: none;
+      border-radius: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #16a085;
+      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(26, 188, 156, 0.5);
+    }
+
+    .result {
+      margin-top: 2rem;
+      font-size: 1.3rem;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 1rem;
+      border-radius: 1rem;
+    }
+
+    .light .result {
+      background: #eee;
+      color: #000;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      color: #1abc9c;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .toggle-btn {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: rgba(0,0,0,0.5);
+      border: none;
+      color: white;
+      font-size: 1.3rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .light .toggle-btn {
+      background: rgba(0, 0, 0, 0.1);
+      color: black;
+    }
+
+    ul.history-list {
+      padding-left: 1rem;
+      text-align: left;
+    }
+
+    ul.history-list li {
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        position: absolute;
+        height: 100vh;
+        z-index: 5;
+        top: 0;
+        left: 0;
+      }
+
+      .main {
+        padding: 1.5rem;
+      }
+
+      .toggle-btn {
+        top: 1rem;
+        left: 1rem;
+      }
     }
   </style>
 </head>
-<body>
-  <header>
-    <img src="{{ url_for('static', filename='logo.png') }}" alt="InboxArmor Logo" />
-    <h1>InboxArmor</h1>
-    <p class="tagline">AI-powered shield for your inbox — stop spam before it strikes.</p>
-  </header>
+<body class="dark">
 
-  <section class="features">
-    <div class="feature">🛡️ Built with Machine Learning (SVM)</div>
-    <div class="feature">📊 90%+ Detection Accuracy</div>
-    <div class="feature">⚡ Lightweight and Fast Web App</div>
-  </section>
+  <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
 
-  <a class="button" href="{{ url_for('home') }}">🧪 Try the Spam Detector</a>
-
-  <section class="ratings">
-    <h2 style="margin-bottom: 1.5rem;">Why Users Love InboxArmor 💙</h2>
-    <div class="stat-grid">
-      <div class="stat-box">
-        <div class="stat-number">4.9★</div>
-        <div class="stat-label">User Rating</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-number">92%</div>
-        <div class="stat-label">Spam Detection Accuracy</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-number">100ms</div>
-        <div class="stat-label">Prediction Speed</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-number">100%</div>
-        <div class="stat-label">Data Privacy</div>
-      </div>
+  <div class="sidebar" id="sidebar">
+    <h2>📂 Menu</h2>
+    <ul class="menu">
+      <li onclick="showSection('form')">📬 Spam Checker</li>
+      <li onclick="showSection('history')">📜 History</li>
+      <li onclick="showSection('tips')">💡 Spam Tips</li>
+      <li onclick="toggleTheme()">🌗 Toggle Theme</li>
+    </ul>
+    <div style="font-size: 0.8rem; color: #aaa; text-align: center; margin-top: 3rem;">
+      © 2025 InboxArmor
     </div>
-  </section>
+  </div>
 
-  <footer>© 2025 InboxArmor. All rights reserved.</footer>
+  <div class="main">
+    <!-- Spam Form -->
+    <div class="center-box" id="form-section">
+      <h1>InboxArmor — Spam Checker</h1>
+      <form id="spam-form" action="/home" method="POST" onsubmit="saveToHistory()">
+        <textarea id="message" name="message" required placeholder="Paste your email..."></textarea><br/>
+        <button type="submit">🔍 Analyze</button>
+      </form>
+
+      {% if prediction %}
+      <div class="result" id="result-box">
+        {{ prediction }}<br/>
+        <small><em>Original:</em> "{{ original }}"</small>
+      </div>
+      {% endif %}
+
+      <a class="back-link" href="/">← Back to Landing Page</a>
+    </div>
+
+    <!-- History -->
+    <div class="center-box" id="history-section" style="display:none;">
+      <h2>🕒 History</h2>
+      <ul class="history-list" id="history-list">
+        <li>No history yet.</li>
+      </ul>
+    </div>
+
+    <!-- Tips -->
+    <div class="center-box" id="tips-section" style="display:none;">
+      <h2>💡 Spam Tips</h2>
+      <ul style="text-align: left; padding-left: 1rem;">
+        <li>⚠️ Don’t click on unknown links</li>
+        <li>📛 Avoid suspicious attachments</li>
+        <li>📨 Use a spam filter on your email client</li>
+        <li>🔐 Never share passwords or OTPs via email</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('hidden');
+    }
+
+    function showSection(id) {
+      const sections = ['form', 'history', 'tips'];
+      sections.forEach(s => {
+        document.getElementById(`${s}-section`).style.display = (s === id) ? 'block' : 'none';
+      });
+      if (id === 'history') loadHistory();
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      const isDark = body.classList.contains('dark');
+      body.classList.toggle('dark', !isDark);
+      body.classList.toggle('light', isDark);
+      localStorage.setItem('theme', isDark ? 'light' : 'dark');
+    }
+
+    function loadHistory() {
+      const list = document.getElementById('history-list');
+      const items = JSON.parse(localStorage.getItem('inboxArmorHistory')) || [];
+      list.innerHTML = items.length
+        ? items.map(item => `<li><strong>${item.result}</strong>: "${item.msg}"</li>`).join('')
+        : '<li>No history yet.</li>';
+    }
+
+    function saveToHistory() {
+      const message = document.getElementById('message').value;
+      const resultBox = document.getElementById('result-box');
+      const resultText = resultBox ? resultBox.textContent.split("\n")[0].trim() : 'Result Unknown';
+      const entry = { msg: message, result: resultText };
+
+      let history = JSON.parse(localStorage.getItem('inboxArmorHistory')) || [];
+      history.unshift(entry);
+      if (history.length > 5) history = history.slice(0, 5);
+      localStorage.setItem('inboxArmorHistory', JSON.stringify(history));
+    }
+
+    window.onload = function () {
+      document.body.className = localStorage.getItem('theme') || 'dark';
+    };
+  </script>
+
 </body>
 </html>
