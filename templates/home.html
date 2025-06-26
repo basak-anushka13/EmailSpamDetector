@@ -183,8 +183,7 @@
       margin-bottom: 0.5rem;
       font-size: 0.95rem;
     }
-
-    @media (min-width: 768px) {
+@media (min-width: 768px) {
   .sidebar {
     transform: translateX(0) !important;
     position: relative;
@@ -260,10 +259,11 @@
   <script>
 function toggleSidebar() {
   const sidebar = document.getElementById('sidebar');
+  sidebar.classList.toggle('show');
 
-  // On small screens: toggle show/hide
-  if (window.innerWidth < 768) {
-    sidebar.classList.toggle('show');
+  // Hide sidebar if already shown and button clicked again (for mobile only)
+  if (window.innerWidth >= 768) {
+    sidebar.classList.add('show'); // Always show on desktop
   }
 }
 
@@ -306,6 +306,20 @@ function toggleSidebar() {
     window.onload = function () {
       document.body.className = localStorage.getItem('theme') || 'dark';
     };
+    document.addEventListener('click', function(e) {
+  const sidebar = document.getElementById('sidebar');
+  const button = document.querySelector('.hamburger');
+
+  if (
+    window.innerWidth < 768 &&
+    sidebar.classList.contains('show') &&
+    !sidebar.contains(e.target) &&
+    !button.contains(e.target)
+  ) {
+    sidebar.classList.remove('show');
+  }
+});
+
   </script>
 
 </body>
