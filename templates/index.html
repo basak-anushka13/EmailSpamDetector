@@ -46,61 +46,62 @@
       justify-content: center;
       margin-bottom: 2.5rem;
     }
-.feature {
-  flex: 0 1 260px;
-min-height: 120px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 1rem;
-  border-radius: 1rem;
-  font-size: 1rem;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-}
 
-.feature:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(26, 188, 156, 0.5);
-}
+    .feature {
+      flex: 1 1 260px;
+      min-height: 100px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 1rem;
+      font-size: 1rem;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
 
-.feature:active {
-  transform: scale(0.98);
-}
+    .feature:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(26, 188, 156, 0.5);
+    }
+
+    .feature:active {
+      transform: scale(0.98);
+    }
 
     .ratings {
-  margin: 3rem auto;
-  text-align: center;
-}
+      margin: 3rem auto;
+      text-align: center;
+    }
 
-.stat-grid {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
+    .stat-grid {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
 
-.stat-box {
-  background: rgba(255, 255, 255, 0.07);
-  padding: 1.2rem;
-  border-radius: 1rem;
-  min-width: 140px;
-  text-align: center;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  border: 1px solid rgba(255,255,255,0.1);
-}
+    .stat-box {
+      background: rgba(255, 255, 255, 0.07);
+      padding: 1.2rem;
+      border-radius: 1rem;
+      min-width: 140px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
 
-.stat-number {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #1abc9c;
-}
+    .stat-number {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #1abc9c;
+    }
 
-.stat-label {
-  font-size: 0.95rem;
-  color: #ddd;
-  margin-top: 0.4rem;
-}
+    .stat-label {
+      font-size: 0.95rem;
+      color: #ddd;
+      margin-top: 0.4rem;
+    }
 
     a.button {
       display: inline-block;
@@ -117,21 +118,21 @@ min-height: 120px;
     a.button:hover {
       background: #16a085;
     }
-footer {
-  font-size: 0.9rem;
-  color: #fff;
-  background-color: rgba(255, 255, 255, 0.05);
-  width: 100%;
-  padding: 1rem 0;
-  text-align: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 1000;
-}
 
+    footer {
+      font-size: 0.9rem;
+      color: #fff;
+      background-color: rgba(255, 255, 255, 0.05);
+      width: 100%;
+      padding: 1rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      z-index: 1000;
+    }
 
     @media (max-width: 600px) {
       h1 { font-size: 1.8rem; }
@@ -156,26 +157,26 @@ footer {
   <a class="button" href="{{ url_for('home') }}">🧪 Try the Spam Detector</a>
 
   <section class="ratings">
-  <h2 style="margin-bottom: 1.5rem;">Why Users Love InboxArmor 💙</h2>
-  <div class="stat-grid">
-    <div class="stat-box">
-      <div class="stat-number">4.9★</div>
-      <div class="stat-label">User Rating</div>
+    <h2 style="margin-bottom: 1.5rem;">Why Users Love InboxArmor 💙</h2>
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div class="stat-number">4.9★</div>
+        <div class="stat-label">User Rating</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">92%</div>
+        <div class="stat-label">Spam Detection Accuracy</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">100ms</div>
+        <div class="stat-label">Prediction Speed</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Data Privacy</div>
+      </div>
     </div>
-    <div class="stat-box">
-      <div class="stat-number">92%</div>
-      <div class="stat-label">Spam Detection Accuracy</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-number">100ms</div>
-      <div class="stat-label">Prediction Speed</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-number">100%</div>
-      <div class="stat-label">Data Privacy</div>
-    </div>
-  </div>
-</section>
+  </section>
 
   <footer>© 2025 InboxArmor. All rights reserved.</footer>
 </body>
